@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FileUploadComponent } from '../components/file-upload.component';
 import type { AnalysisResult } from '../models/analysis-result.model';
-import { KmlAnalysisService } from '../services/kml-analysis.service';
+import { FileAnalysisService } from '../services/file-analysis.service';
 
 @Component({
   selector: 'app-analysis-page',
@@ -11,7 +11,7 @@ import { KmlAnalysisService } from '../services/kml-analysis.service';
   styleUrl: './analysis-page.component.scss'
 })
 export class AnalysisPageComponent {
-  private readonly kmlAnalysisService = inject(KmlAnalysisService);
+  private readonly fileAnalysisService = inject(FileAnalysisService);
 
   readonly result = signal<AnalysisResult | null>(null);
   readonly loading = signal(false);
@@ -25,9 +25,9 @@ export class AnalysisPageComponent {
     this.result.set(null);
 
     try {
-      this.result.set(await this.kmlAnalysisService.analyze(file));
+      this.result.set(await this.fileAnalysisService.analyze(file));
     } catch {
-      this.error.set('Unable to analyze the selected KML file.');
+      this.error.set('Unable to analyze the selected file.');
     } finally {
       this.loading.set(false);
     }

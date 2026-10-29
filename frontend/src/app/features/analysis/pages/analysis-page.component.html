@@ -34,7 +34,7 @@
           </span>
           <div>
             <h2 id="upload-heading">Upload KML</h2>
-            <p>Choose a file to start your analysis.</p>
+            <p>Choose a KML or GeoJSON file to start your analysis.</p>
           </div>
         </div>
 
@@ -46,7 +46,7 @@
             {{ fileName }}
           </p>
         } @else {
-          <p class="file-hint">Supported format: .kml</p>
+          <p class="file-hint">Supported formats: .kml, .geojson, .json</p>
         }
 
         @if (error(); as errorMessage) {

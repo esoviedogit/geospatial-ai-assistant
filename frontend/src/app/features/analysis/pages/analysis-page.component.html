@@ -1,0 +1,118 @@
+<div class="dashboard">
+  <header class="topbar">
+    <div class="topbar__content">
+      <a class="brand" href="/" aria-label="GeoSpatial AI Assistant home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" />
+            <circle cx="12" cy="9" r="2.5" />
+            <path d="M4.5 18.5c1.8-1 4.5-1.5 7.5-1.5s5.7.5 7.5 1.5" />
+          </svg>
+        </span>
+        <span class="brand__name">GeoSpatial AI Assistant</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="page-intro" aria-labelledby="page-title">
+      <p class="eyebrow">GEOSPATIAL TOOLS</p>
+      <h1 id="page-title">KML analysis</h1>
+      <p class="page-intro__description">
+        Upload a KML file to explore a quick summary of its geographic features.
+      </p>
+    </section>
+
+    <div class="workspace-grid">
+      <section class="card upload-card" aria-labelledby="upload-heading">
+        <div class="card__heading">
+          <span class="card__icon card__icon--upload" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 15V4m0 0L8 8m4-4 4 4" />
+              <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+            </svg>
+          </span>
+          <div>
+            <h2 id="upload-heading">Upload KML</h2>
+            <p>Choose a file to start your analysis.</p>
+          </div>
+        </div>
+
+        <app-file-upload (fileSelected)="analyzeFile($event)" />
+
+        @if (selectedFileName(); as fileName) {
+          <p class="selected-file" aria-live="polite">
+            <span class="selected-file__indicator" aria-hidden="true"></span>
+            {{ fileName }}
+          </p>
+        } @else {
+          <p class="file-hint">Supported format: .kml</p>
+        }
+
+        @if (error(); as errorMessage) {
+          <p class="error-message" role="alert">{{ errorMessage }}</p>
+        }
+      </section>
+
+      <section class="card results-card" aria-labelledby="results-heading">
+        <div class="card__heading">
+          <span class="card__icon card__icon--results" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 19V5m0 14h16" />
+              <path d="m7 15 4-4 3 2 5-6" />
+              <circle cx="7" cy="15" r="1" />
+              <circle cx="11" cy="11" r="1" />
+              <circle cx="14" cy="13" r="1" />
+              <circle cx="19" cy="7" r="1" />
+            </svg>
+          </span>
+          <div>
+            <h2 id="results-heading">Analysis Results</h2>
+            <p>Your feature breakdown will appear here.</p>
+          </div>
+        </div>
+
+        @if (loading()) {
+          <div class="loading-state" role="status" aria-live="polite">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Analyzing your KML file...</span>
+          </div>
+        } @else {
+          @if (result(); as analysis) {
+            <dl class="stats-grid">
+              <div class="stat stat--total">
+                <dt>Total features</dt>
+                <dd>{{ analysis.totalFeatures }}</dd>
+              </div>
+              <div class="stat">
+                <dt>Points</dt>
+                <dd>{{ analysis.points }}</dd>
+              </div>
+              <div class="stat">
+                <dt>Lines</dt>
+                <dd>{{ analysis.lines }}</dd>
+              </div>
+              <div class="stat">
+                <dt>Polygons</dt>
+                <dd>{{ analysis.polygons }}</dd>
+              </div>
+            </dl>
+          } @else {
+            <div class="empty-state">
+              <span class="empty-state__icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <path d="M8 38V12a3 3 0 0 1 3-3h26a3 3 0 0 1 3 3v26" />
+                  <path d="M5 38h38M16 19h16M16 26h10" />
+                  <circle cx="34" cy="32" r="6" />
+                  <path d="m38.5 36.5 4 4" />
+                </svg>
+              </span>
+              <h3>No analysis yet</h3>
+              <p>Upload a KML file to see its feature statistics.</p>
+            </div>
+          }
+        }
+      </section>
+    </div>
+  </main>
+</div>

@@ -4,14 +4,26 @@ import { Component, output } from '@angular/core';
   selector: 'app-file-upload',
   standalone: true,
   template: `
-    <label for="kml-file">Select a KML file</label>
-    <input
-      id="kml-file"
-      type="file"
-      accept=".kml,application/vnd.google-earth.kml+xml"
-      (change)="onFileChange($event)"
-    />
-  `
+    <div class="upload-control">
+      <input
+        id="kml-file"
+        class="upload-control__input"
+        type="file"
+        accept=".kml,application/vnd.google-earth.kml+xml"
+        aria-label="Choose a KML file"
+        (change)="onFileChange($event)"
+      />
+      <label class="upload-control__button" for="kml-file">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 15V4m0 0L8 8m4-4 4 4" />
+          <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+        </svg>
+        Choose KML file
+      </label>
+      <span class="upload-control__format">KML</span>
+    </div>
+  `,
+  styleUrl: './file-upload.component.scss'
 })
 export class FileUploadComponent {
   readonly fileSelected = output<File>();

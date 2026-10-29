@@ -18,4 +18,13 @@ de archivos geoespaciales.
 - TypeScript
 - OpenLayers
 - Node.js
-- Azure OpenAI
+- Copilot Agent
+
+## Quality
+
+✅ Unit Tests
+
+Coverage
+
+- KmlAnalysisService: 95%
+- Geometry Classification: 100%

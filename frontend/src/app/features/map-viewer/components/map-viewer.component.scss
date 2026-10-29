@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.map-target {
+  width: 100%;
+  min-height: 360px;
+  height: min(68vh, 680px);
+  overflow: hidden;
+  border: 1px solid #e1e7f0;
+  border-radius: 12px;
+  background: #eaf0f6;
+}
+
+@media (max-width: 600px) {
+  .map-target {
+    min-height: 300px;
+    height: 55vh;
+  }
+}

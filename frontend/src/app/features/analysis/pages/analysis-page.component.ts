@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FileUploadComponent } from '../components/file-upload.component';
+import { FileUploadComponent } from '../../../shared/components/file-upload.component';
 import type { AnalysisResult } from '../models/analysis-result.model';
 import { FileAnalysisService } from '../services/file-analysis.service';
 

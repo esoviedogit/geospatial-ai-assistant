@@ -1,0 +1,36 @@
+<main class="map-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">GEOSPATIAL TOOLS</p>
+      <h1>Map Viewer</h1>
+      <p class="description">Upload a KML or GeoJSON file to view its features on the map.</p>
+    </div>
+    <app-file-upload (fileSelected)="loadFile($event)" />
+  </header>
+
+  @if (loading()) {
+    <p class="status" role="status">Analyzing and loading map features...</p>
+  }
+
+  @if (error(); as errorMessage) {
+    <p class="error" role="alert">{{ errorMessage }}</p>
+  }
+
+  @if (analysis(); as result) {
+    <section class="file-summary" aria-label="Loaded file summary">
+      <div>
+        <h2>{{ fileName() }}</h2>
+        <p>{{ result.totalFeatures }} features · {{ result.points }} points · {{ result.lines }} lines · {{ result.polygons }} polygons</p>
+      </div>
+    </section>
+  }
+
+  @if (features(); as uploadedFeatures) {
+    <app-map-viewer [features]="uploadedFeatures" />
+  } @else if (!loading() && !error()) {
+    <section class="empty-state">
+      <h2>Your map is ready</h2>
+      <p>Upload a geospatial file to display its features.</p>
+    </section>
+  }
+</main>

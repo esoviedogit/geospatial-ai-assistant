@@ -114,5 +114,9 @@
         }
       </section>
     </div>
+
+    @if (validation(); as report) {
+      <app-validation-report [summary]="report" />
+    }
   </main>
 </div>

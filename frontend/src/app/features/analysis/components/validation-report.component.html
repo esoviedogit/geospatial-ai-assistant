@@ -1,0 +1,37 @@
+<section class="report" aria-labelledby="quality-heading">
+  <div class="report__heading">
+    <span class="report__icon" aria-hidden="true">!</span>
+    <div>
+      <h2 id="quality-heading">Data Quality Report</h2>
+      <p>Validation findings to guide data cleanup and future recommendations.</p>
+    </div>
+  </div>
+
+  <p class="features-analyzed">
+    <span aria-hidden="true">✓</span>
+    Features analyzed: <strong>{{ summary.featuresAnalyzed }}</strong>
+  </p>
+
+  @if (summary.result.warnings.length > 0) {
+    <h3 class="warnings-heading">Warnings</h3>
+    <ul class="warnings-list">
+      @if (summary.result.unnamedFeatures > 0) {
+        <li><span aria-hidden="true">⚠</span> Unnamed features: {{ summary.result.unnamedFeatures }}</li>
+      }
+      @if (summary.result.missingGeometries > 0) {
+        <li><span aria-hidden="true">⚠</span> Missing geometries: {{ summary.result.missingGeometries }}</li>
+      }
+      @if (summary.result.emptyGeometries > 0) {
+        <li><span aria-hidden="true">⚠</span> Empty geometries: {{ summary.result.emptyGeometries }}</li>
+      }
+      @if (summary.result.invalidCoordinates > 0) {
+        <li><span aria-hidden="true">⚠</span> Invalid coordinates: {{ summary.result.invalidCoordinates }}</li>
+      }
+      @if (summary.result.duplicatedFeatures > 0) {
+        <li><span aria-hidden="true">⚠</span> Duplicated features: {{ summary.result.duplicatedFeatures }}</li>
+      }
+    </ul>
+  } @else {
+    <p class="quality-success">No data quality issues found.</p>
+  }
+</section>

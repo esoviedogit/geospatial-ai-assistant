@@ -1,12 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { FileUploadComponent } from '../../../shared/components/file-upload.component';
+import { ValidationReportComponent } from '../components/validation-report.component';
 import type { AnalysisResult } from '../models/analysis-result.model';
+import type { ValidationSummary } from '../models/validation-summary.model';
 import { FileAnalysisService } from '../services/file-analysis.service';
 
 @Component({
   selector: 'app-analysis-page',
   standalone: true,
-  imports: [FileUploadComponent],
+  imports: [FileUploadComponent, ValidationReportComponent],
   templateUrl: './analysis-page.component.html',
   styleUrl: './analysis-page.component.scss'
 })
@@ -14,6 +16,7 @@ export class AnalysisPageComponent {
   private readonly fileAnalysisService = inject(FileAnalysisService);
 
   readonly result = signal<AnalysisResult | null>(null);
+  readonly validation = signal<ValidationSummary | null>(null);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly selectedFileName = signal<string | null>(null);
@@ -23,9 +26,12 @@ export class AnalysisPageComponent {
     this.loading.set(true);
     this.error.set(null);
     this.result.set(null);
+    this.validation.set(null);
 
     try {
-      this.result.set(await this.fileAnalysisService.analyze(file));
+      const report = await this.fileAnalysisService.analyzeWithValidation(file);
+      this.result.set(report.analysis);
+      this.validation.set(report.validation);
     } catch {
       this.error.set('Unable to analyze the selected file.');
     } finally {

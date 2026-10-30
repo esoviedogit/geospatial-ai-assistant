@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AiService } from './ai.service';
+import { ASSESSMENT_PROVIDER } from './assessment-provider.token';
 import { AssessmentRequestDto } from './dto/assessment-request.dto';
-import { OpenAiAssessmentProvider } from './providers/openai-assessment.provider';
 
 describe('AiService', () => {
   let service: AiService;
@@ -17,7 +17,7 @@ describe('AiService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AiService, { provide: OpenAiAssessmentProvider, useValue: provider }]
+      providers: [AiService, { provide: ASSESSMENT_PROVIDER, useValue: provider }]
     }).compile();
 
     service = module.get<AiService>(AiService);

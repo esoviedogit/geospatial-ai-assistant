@@ -6,11 +6,13 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
+import type { AssessmentProvider } from '../assessment-provider';
+import { parseAssessmentResponse } from '../assessment-response.parser';
 import { AssessmentRequestDto } from '../dto/assessment-request.dto';
 import type { AssessmentResponseDto } from '../dto/assessment-response.dto';
 
 @Injectable()
-export class OpenAiAssessmentProvider {
+export class OpenAiAssessmentProvider implements AssessmentProvider {
   private readonly logger = new Logger(OpenAiAssessmentProvider.name);
 
   constructor(private readonly configService: ConfigService) {}
@@ -55,7 +57,7 @@ export class OpenAiAssessmentProvider {
         throw new BadGatewayException('AI assessment provider returned an empty response.');
       }
 
-      return this.parseAssessment(content);
+      return parseAssessmentResponse(content);
     } catch (error) {
       if (error instanceof BadGatewayException) {
         throw error;
@@ -63,49 +65,5 @@ export class OpenAiAssessmentProvider {
       this.logger.error('AI assessment provider request failed.');
       throw new BadGatewayException('AI assessment provider request failed.');
     }
-  }
-
-  private parseAssessment(content: string): AssessmentResponseDto {
-    let response: unknown;
-    try {
-      response = JSON.parse(content);
-    } catch {
-      throw new BadGatewayException('AI assessment provider returned invalid JSON.');
-    }
-
-    if (
-      typeof response !== 'object' ||
-      response === null ||
-      !('summary' in response) ||
-      !('warnings' in response) ||
-      !('recommendations' in response)
-    ) {
-      throw new BadGatewayException('AI assessment provider returned an invalid response shape.');
-    }
-
-    const { summary, warnings, recommendations } = response;
-    if (
-      typeof summary !== 'string' ||
-      summary.trim().length === 0 ||
-      summary.length > 2000 ||
-      !this.isStringArray(warnings) ||
-      !this.isStringArray(recommendations)
-    ) {
-      throw new BadGatewayException('AI assessment provider returned invalid assessment fields.');
-    }
-
-    return {
-      summary: summary.trim(),
-      warnings: warnings.map((item) => item.trim()).filter(Boolean).slice(0, 20),
-      recommendations: recommendations.map((item) => item.trim()).filter(Boolean).slice(0, 20)
-    };
-  }
-
-  private isStringArray(value: unknown): value is string[] {
-    return (
-      Array.isArray(value) &&
-      value.length <= 20 &&
-      value.every((item) => typeof item === 'string' && item.length <= 1000)
-    );
   }
 }

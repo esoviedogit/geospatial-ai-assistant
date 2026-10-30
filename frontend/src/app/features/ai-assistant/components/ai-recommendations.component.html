@@ -1,0 +1,42 @@
+<section class="assessment" aria-labelledby="assessment-heading">
+  <header class="assessment__header">
+    <span class="assessment__icon" aria-hidden="true">AI</span>
+    <div>
+      <h2 id="assessment-heading">AI Assessment</h2>
+      <p>Automated insights based on your analysis and data quality results.</p>
+    </div>
+  </header>
+
+  <div class="assessment__section">
+    <h3>Summary</h3>
+    <p>{{ assessment.summary }}</p>
+  </div>
+
+  <div class="assessment__columns">
+    <div class="assessment__section">
+      <h3>Warnings</h3>
+      @if (assessment.warnings.length > 0) {
+        <ul>
+          @for (warning of assessment.warnings; track warning) {
+            <li>{{ warning }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="assessment__empty">No warnings found.</p>
+      }
+    </div>
+
+    <div class="assessment__section">
+      <h3>Recommendations</h3>
+      @if (assessment.recommendations.length > 0) {
+        <ul>
+          @for (recommendation of assessment.recommendations; track recommendation) {
+            <li>{{ recommendation }}</li>
+          }
+        </ul>
+      } @else {
+        <p class="assessment__empty">No recommendations at this time.</p>
+      }
+    </div>
+  </div>
+</section>

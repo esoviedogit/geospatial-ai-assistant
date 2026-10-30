@@ -1,30 +1,34 @@
 # GeoSpatial AI Assistant
 
-Asistente basado en IA para análisis y documentación
-de archivos geoespaciales.
+AI-powered geospatial analysis platform.
 
-## Características
+## Features
 
-- Carga de KML
-- Carga de GeoJSON
-- Estadísticas automáticas
-- Detección de errores
-- Generación de documentación
-- Generación de ejemplos Angular/OpenLayers
+✅ KML Analysis
 
-## Tecnologías
+✅ GeoJSON Analysis
 
-- Angular
-- TypeScript
-- OpenLayers
-- Node.js
-- Copilot Agent
+✅ OpenLayers Map Viewer
 
-## Quality
+✅ Data Quality Validation
+
+✅ AI Assessment Engine
 
 ✅ Unit Tests
 
-Coverage
+## AI Assessment
 
-- KmlAnalysisService: 95%
-- Geometry Classification: 100%
+The Analysis Agent evaluates:
+
+- Missing names
+- Missing geometries
+- Empty geometries
+- Invalid coordinates
+- Duplicated geometries
+- Large datasets
+
+and generates:
+
+- Summary
+- Warnings
+- Recommendations

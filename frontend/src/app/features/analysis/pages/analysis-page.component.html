@@ -118,5 +118,9 @@
     @if (validation(); as report) {
       <app-validation-report [summary]="report" />
     }
+
+    @if (aiAssessment(); as assessment) {
+      <app-ai-recommendations [assessment]="assessment" />
+    }
   </main>
 </div>

@@ -36,7 +36,7 @@ export class AnalysisPageComponent {
 
     try {
       const report = await this.fileAnalysisService.analyzeWithValidation(file);
-      const aiAssessment = this.analysisAgentService.generateRecommendations({
+      const aiAssessment = await this.analysisAgentService.generateRecommendations({
         analysis: report.analysis,
         validation: report.validation.result
       });
